@@ -17,6 +17,11 @@ class CustomIcon(context: Context) {
     private var element: ImageView? = null
     init {
         element = ImageView(context)
+        element!!.id = View.generateViewId()
+    }
+
+    fun id(): Int {
+        return element!!.id
     }
 
     fun build(): ImageView {
@@ -37,10 +42,15 @@ class CustomIcon(context: Context) {
         return this
     }
 
-    fun margin(left: Int, top: Int, right: Int, bottom: Int): CustomLayout {
+    fun margin(left: Int, top: Int, right: Int, bottom: Int): CustomIcon {
         var params: LinearLayout.LayoutParams = element!!.layoutParams as LinearLayout.LayoutParams
         params.setMargins(left, top, right, bottom)
         element!!.layoutParams = params
+        return this
+    }
+
+    fun padding(left: Int, top: Int, right: Int, bottom: Int): CustomIcon {
+        element!!.setPadding(left, top, right, bottom)
         return this
     }
 
@@ -61,6 +71,12 @@ class CustomIcon(context: Context) {
 
     fun icon(drawable: Int): CustomIcon {
         element!!.setImageDrawable(getImage(drawable))
+        return this
+    }
+
+    fun visibility(show: Boolean): CustomIcon {
+        element!!.visibility = View.GONE
+        if (show) element!!.visibility = View.VISIBLE
         return this
     }
 

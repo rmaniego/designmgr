@@ -3,6 +3,7 @@ package com.ripelemon.ripelemon.designmgr
 import android.content.Context
 import android.util.TypedValue
 import android.view.Gravity
+import android.view.View
 import android.widget.LinearLayout
 import kotlin.math.roundToInt
 
@@ -14,6 +15,11 @@ class CustomLayout(context: Context) {
     private var element: LinearLayout? = null
     init {
         element = LinearLayout(context)
+        element!!.id = View.generateViewId()
+    }
+
+    fun id(): Int {
+        return element!!.id
     }
 
     fun build(): LinearLayout {
@@ -41,6 +47,11 @@ class CustomLayout(context: Context) {
         return this
     }
 
+    fun padding(left: Int, top: Int, right: Int, bottom: Int): CustomLayout {
+        element!!.setPadding(left, top, right, bottom)
+        return this
+    }
+
     fun orientation(value: String): CustomLayout {
         element!!.orientation = orientations(value)
         return this
@@ -58,6 +69,12 @@ class CustomLayout(context: Context) {
 
     fun backgroundColor(color: Int): CustomLayout {
         element!!.setBackgroundColor(color)
+        return this
+    }
+
+    fun visibility(show: Boolean): CustomLayout {
+        element!!.visibility = View.GONE
+        if (show) element!!.visibility = View.VISIBLE
         return this
     }
 
@@ -81,10 +98,13 @@ class CustomLayout(context: Context) {
         if (value == "bottom") return Gravity.BOTTOM
         if (value == "end") return Gravity.END
         if (value == "top,start") return Gravity.TOP or Gravity.START
+        if (value == "top,center") return Gravity.TOP or Gravity.CENTER_HORIZONTAL
         if (value == "top,end") return Gravity.TOP or Gravity.END
         if (value == "center,start") return Gravity.CENTER_VERTICAL or Gravity.START
+        if (value == "center,center") return Gravity.CENTER_VERTICAL or Gravity.CENTER_HORIZONTAL
         if (value == "center,end") return Gravity.CENTER_VERTICAL or Gravity.END
         if (value == "bottom,start") return Gravity.BOTTOM or Gravity.START
+        if (value == "bottom,center") return Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL
         if (value == "bottom,end") return Gravity.BOTTOM or Gravity.END
         return Gravity.NO_GRAVITY
     }

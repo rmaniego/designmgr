@@ -2,6 +2,7 @@ package com.ripelemon.ripelemon.designmgr
 
 import android.content.Context
 import android.util.TypedValue
+import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.ListView
@@ -15,6 +16,11 @@ class CustomList(context: Context) {
     private var element: ListView? = null
     init {
         element = ListView(context)
+        element!!.id = View.generateViewId()
+    }
+
+    fun id(): Int {
+        return element!!.id
     }
 
     fun build(): ListView {
@@ -35,10 +41,15 @@ class CustomList(context: Context) {
         return this
     }
 
-    fun margin(left: Int, top: Int, right: Int, bottom: Int): CustomLayout {
+    fun margin(left: Int, top: Int, right: Int, bottom: Int): CustomList {
         var params: LinearLayout.LayoutParams = element!!.layoutParams as LinearLayout.LayoutParams
         params.setMargins(left, top, right, bottom)
         element!!.layoutParams = params
+        return this
+    }
+
+    fun padding(left: Int, top: Int, right: Int, bottom: Int): CustomList {
+        element!!.setPadding(left, top, right, bottom)
         return this
     }
 
@@ -49,6 +60,12 @@ class CustomList(context: Context) {
 
     fun backgroundColor(color: Int): CustomList {
         element!!.setBackgroundColor(color)
+        return this
+    }
+
+    fun visibility(show: Boolean): CustomList {
+        element!!.visibility = View.GONE
+        if (show) element!!.visibility = View.VISIBLE
         return this
     }
 

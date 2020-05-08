@@ -3,6 +3,7 @@ package com.ripelemon.ripelemon.designmgr
 import android.content.Context
 import android.util.TypedValue
 import android.view.Gravity
+import android.view.View
 import android.widget.LinearLayout
 import android.widget.ScrollView
 import kotlin.math.roundToInt
@@ -15,6 +16,11 @@ class CustomScrollView(context: Context) {
     private var element: ScrollView? = null
     init {
         element = ScrollView(context)
+        element!!.id = View.generateViewId()
+    }
+
+    fun id(): Int {
+        return element!!.id
     }
 
     fun build(): ScrollView {
@@ -35,10 +41,15 @@ class CustomScrollView(context: Context) {
         return this
     }
 
-    fun margin(left: Int, top: Int, right: Int, bottom: Int): CustomLayout {
+    fun margin(left: Int, top: Int, right: Int, bottom: Int): CustomScrollView {
         var params: LinearLayout.LayoutParams = element!!.layoutParams as LinearLayout.LayoutParams
         params.setMargins(left, top, right, bottom)
         element!!.layoutParams = params
+        return this
+    }
+
+    fun padding(left: Int, top: Int, right: Int, bottom: Int): CustomScrollView {
+        element!!.setPadding(left, top, right, bottom)
         return this
     }
 
@@ -52,8 +63,13 @@ class CustomScrollView(context: Context) {
         return this
     }
 
-    // utils
+    fun visibility(show: Boolean): CustomScrollView {
+        element!!.visibility = View.GONE
+        if (show) element!!.visibility = View.VISIBLE
+        return this
+    }
 
+    // utils
     private fun layoutParams(value: String): Int {
         //v0.1.0-201911152336
         if (value == "matchParent") return LinearLayout.LayoutParams.MATCH_PARENT

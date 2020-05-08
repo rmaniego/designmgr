@@ -1,6 +1,7 @@
 package com.ripelemon.ripelemon.designmgr
 
 import android.content.Context
+import android.text.InputFilter
 import android.text.InputType
 import android.util.TypedValue
 import android.view.Gravity
@@ -16,6 +17,11 @@ class CustomInput(context: Context) {
     private var element: EditText? = null
     init {
         element = EditText(context)
+        element!!.id = View.generateViewId()
+    }
+
+    fun id(): Int {
+        return element!!.id
     }
 
     fun build(): EditText {
@@ -36,10 +42,15 @@ class CustomInput(context: Context) {
         return this
     }
 
-    fun margin(left: Int, top: Int, right: Int, bottom: Int): CustomLayout {
+    fun margin(left: Int, top: Int, right: Int, bottom: Int): CustomInput {
         var params: LinearLayout.LayoutParams = element!!.layoutParams as LinearLayout.LayoutParams
         params.setMargins(left, top, right, bottom)
         element!!.layoutParams = params
+        return this
+    }
+
+    fun padding(left: Int, top: Int, right: Int, bottom: Int): CustomInput {
+        element!!.setPadding(left, top, right, bottom)
         return this
     }
 
@@ -73,6 +84,11 @@ class CustomInput(context: Context) {
         return this
     }
 
+    fun maxLength(size: Int): CustomInput {
+        element!!.limitLength(size)
+        return this
+    }
+
     fun hint(value: String): CustomInput {
         element!!.hint = value
         return this
@@ -80,6 +96,12 @@ class CustomInput(context: Context) {
 
     fun text(value: String): CustomInput {
         element!!.setText(value)
+        return this
+    }
+
+    fun visibility(show: Boolean): CustomInput {
+        element!!.visibility = View.GONE
+        if (show) element!!.visibility = View.VISIBLE
         return this
     }
 
@@ -113,6 +135,11 @@ class CustomInput(context: Context) {
         return this
     }
 
+    // extensions
+    private fun EditText.limitLength(maxLength: Int) {
+        filters = arrayOf(InputFilter.LengthFilter(maxLength))
+    }
+
     // utils
     private fun layoutParams(value: String): Int {
         //v0.1.0-201911152336
@@ -134,10 +161,13 @@ class CustomInput(context: Context) {
         if (value == "bottom") return Gravity.BOTTOM
         if (value == "end") return Gravity.END
         if (value == "top,start") return Gravity.TOP or Gravity.START
+        if (value == "top,center") return Gravity.TOP or Gravity.CENTER_HORIZONTAL
         if (value == "top,end") return Gravity.TOP or Gravity.END
         if (value == "center,start") return Gravity.CENTER_VERTICAL or Gravity.START
+        if (value == "center,center") return Gravity.CENTER_VERTICAL or Gravity.CENTER_HORIZONTAL
         if (value == "center,end") return Gravity.CENTER_VERTICAL or Gravity.END
         if (value == "bottom,start") return Gravity.BOTTOM or Gravity.START
+        if (value == "bottom,center") return Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL
         if (value == "bottom,end") return Gravity.BOTTOM or Gravity.END
         return Gravity.NO_GRAVITY
     }

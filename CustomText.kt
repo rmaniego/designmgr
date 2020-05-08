@@ -15,6 +15,11 @@ class CustomText(context: Context) {
     private var element: TextView? = null
     init {
         element = TextView(context)
+        element!!.id = View.generateViewId()
+    }
+
+    fun id(): Int {
+        return element!!.id
     }
 
     fun build(): TextView {
@@ -35,10 +40,15 @@ class CustomText(context: Context) {
         return this
     }
 
-    fun margin(left: Int, top: Int, right: Int, bottom: Int): CustomLayout {
+    fun margin(left: Int, top: Int, right: Int, bottom: Int): CustomText {
         var params: LinearLayout.LayoutParams = element!!.layoutParams as LinearLayout.LayoutParams
         params.setMargins(left, top, right, bottom)
         element!!.layoutParams = params
+        return this
+    }
+
+    fun padding(left: Int, top: Int, right: Int, bottom: Int): CustomText {
+        element!!.setPadding(left, top, right, bottom)
         return this
     }
 
@@ -69,6 +79,12 @@ class CustomText(context: Context) {
 
     fun text(value: String): CustomText {
         element!!.text = value
+        return this
+    }
+
+    fun visibility(show: Boolean): CustomText {
+        element!!.visibility = View.GONE
+        if (show) element!!.visibility = View.VISIBLE
         return this
     }
 
@@ -116,10 +132,13 @@ class CustomText(context: Context) {
         if (value == "bottom") return Gravity.BOTTOM
         if (value == "end") return Gravity.END
         if (value == "top,start") return Gravity.TOP or Gravity.START
+        if (value == "top,center") return Gravity.TOP or Gravity.CENTER_HORIZONTAL
         if (value == "top,end") return Gravity.TOP or Gravity.END
         if (value == "center,start") return Gravity.CENTER_VERTICAL or Gravity.START
+        if (value == "center,center") return Gravity.CENTER_VERTICAL or Gravity.CENTER_HORIZONTAL
         if (value == "center,end") return Gravity.CENTER_VERTICAL or Gravity.END
         if (value == "bottom,start") return Gravity.BOTTOM or Gravity.START
+        if (value == "bottom,center") return Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL
         if (value == "bottom,end") return Gravity.BOTTOM or Gravity.END
         return Gravity.NO_GRAVITY
     }
