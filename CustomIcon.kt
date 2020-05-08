@@ -37,9 +37,9 @@ class CustomIcon(context: Context) {
         return this
     }
 
-    fun margin(top: Int, right: Int, bottom: Int, left: Int): CustomIcon {
+    fun margin(left: Int, top: Int, right: Int, bottom: Int): CustomLayout {
         var params: LinearLayout.LayoutParams = element!!.layoutParams as LinearLayout.LayoutParams
-        params.setMargins(top, right, bottom, left)
+        params.setMargins(left, top, right, bottom)
         element!!.layoutParams = params
         return this
     }

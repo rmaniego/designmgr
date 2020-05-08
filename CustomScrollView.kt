@@ -2,29 +2,29 @@ package com.ripelemon.ripelemon.designmgr
 
 import android.content.Context
 import android.util.TypedValue
-import android.view.ViewGroup
+import android.view.Gravity
 import android.widget.LinearLayout
-import android.widget.ListView
+import android.widget.ScrollView
 import kotlin.math.roundToInt
 
-class CustomList(context: Context) {
+class CustomScrollView(context: Context) {
 
     var context = context
 
     // initialize
-    private var element: ListView? = null
+    private var element: ScrollView? = null
     init {
-        element = ListView(context)
+        element = ScrollView(context)
     }
 
-    fun build(): ListView {
+    fun build(): ScrollView {
         // v1.0.0-201911180240
         // v1.0.0-202005090025
         return element!!
     }
 
-    fun layout(width: Any, height: Any): CustomList {
-        var params: ViewGroup.LayoutParams = element!!.layoutParams as LinearLayout.LayoutParams
+    fun layout(width: Any, height: Any): CustomScrollView {
+        var params: LinearLayout.LayoutParams = element!!.layoutParams as LinearLayout.LayoutParams
         // check width data type
         if (width is String) params.width = layoutParams(width)
         if (width is Int) params.width = pixel(width)
@@ -42,20 +42,21 @@ class CustomList(context: Context) {
         return this
     }
 
-    fun elevation(dip: Int): CustomList {
+    fun elevation(dip: Int): CustomScrollView {
         element!!.elevation = displayValue(dip)
         return this
     }
 
-    fun backgroundColor(color: Int): CustomList {
+    fun backgroundColor(color: Int): CustomScrollView {
         element!!.setBackgroundColor(color)
         return this
     }
 
     // utils
-    private fun layoutParams(type: String): Int {
+
+    private fun layoutParams(value: String): Int {
         //v0.1.0-201911152336
-        if (type == "matchParent") return LinearLayout.LayoutParams.MATCH_PARENT
+        if (value == "matchParent") return LinearLayout.LayoutParams.MATCH_PARENT
         return LinearLayout.LayoutParams.WRAP_CONTENT
     }
 
