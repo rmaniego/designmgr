@@ -10,73 +10,66 @@ import androidx.core.graphics.drawable.RoundedBitmapDrawable
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
 import kotlin.math.roundToInt
 
-class CustomIcon(context: Context) {
-    var context = context
+open class CustomIcon(var context: Context) {
 
-    // initialize
-    private var element: ImageView? = null
+    private var element = ImageView(context)
     init {
-        element = ImageView(context)
-        element!!.id = View.generateViewId()
+        element.id = View.generateViewId()
     }
 
     fun id(): Int {
-        return element!!.id
+        return element.id
     }
 
     fun build(): ImageView {
         // v1.0.0-201911180240
         // v1.0.0-202005090025
-        return element!!
+        return element
     }
 
     fun layout(width: Any, height: Any): CustomIcon {
-        var params: LinearLayout.LayoutParams = element!!.layoutParams as LinearLayout.LayoutParams
-        // check width data type
-        if (width is String) params.width = layoutParams(width)
-        if (width is Int) params.width = pixel(width)
-        // check height data type
-        if (height is String) params.height = layoutParams(height)
-        if (height is Int) params.height = pixel(height)
-        element!!.layoutParams = params
+        val params = LinearLayout.LayoutParams(layoutParams("wrapContent"), layoutParams("wrapContent"))
+        params.width = if (width is String) layoutParams(width) else pixel(width as Int)
+        params.height = if (height is String) layoutParams(height) else pixel(height as Int)
+        element.layoutParams = params
         return this
     }
 
     fun margin(left: Int, top: Int, right: Int, bottom: Int): CustomIcon {
-        var params: LinearLayout.LayoutParams = element!!.layoutParams as LinearLayout.LayoutParams
+        val params = LinearLayout.LayoutParams(element.layoutParams.width, element.layoutParams.height)
         params.setMargins(left, top, right, bottom)
-        element!!.layoutParams = params
+        element.layoutParams = params
         return this
     }
 
     fun padding(left: Int, top: Int, right: Int, bottom: Int): CustomIcon {
-        element!!.setPadding(left, top, right, bottom)
+        element.setPadding(left, top, right, bottom)
         return this
     }
 
     fun alignment(value: String): CustomIcon {
-        element!!.textAlignment = alignments(value)
+        element.textAlignment = alignments(value)
         return this
     }
 
     fun elevation(dip: Int): CustomIcon {
-        element!!.elevation = displayValue(dip)
+        element.elevation = displayValue(dip)
         return this
     }
 
     fun backgroundColor(color: Int): CustomIcon {
-        element!!.setBackgroundColor(color)
+        element.setBackgroundColor(color)
         return this
     }
 
     fun icon(drawable: Int): CustomIcon {
-        element!!.setImageDrawable(getImage(drawable))
+        element.setImageDrawable(getImage(drawable))
         return this
     }
 
     fun visibility(show: Boolean): CustomIcon {
-        element!!.visibility = View.GONE
-        if (show) element!!.visibility = View.VISIBLE
+        element.visibility = View.GONE
+        if (show) element.visibility = View.VISIBLE
         return this
     }
 

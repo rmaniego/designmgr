@@ -8,118 +8,111 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import kotlin.math.roundToInt
 
-class CustomButton(context: Context) {
-    var context = context
+open class CustomButton(var context: Context) {
 
-    // initialize
-    private var element: TextView? = null
+    private var element = TextView(context)
     init {
-        element = TextView(context)
-        element!!.id = View.generateViewId()
+        element.id = View.generateViewId()
     }
 
     fun id(): Int {
-        return element!!.id
+        return element.id
     }
 
     fun build(): TextView {
         // v1.0.0-201911180240
         // v1.0.0-202005090025
-        return element!!
+        return element
     }
 
     fun layout(width: Any, height: Any): CustomButton {
-        var params: LinearLayout.LayoutParams = element!!.layoutParams as LinearLayout.LayoutParams
-        // check width data type
-        if (width is String) params.width = layoutParams(width)
-        if (width is Int) params.width = pixel(width)
-        // check height data type
-        if (height is String) params.height = layoutParams(height)
-        if (height is Int) params.height = pixel(height)
-        element!!.layoutParams = params
+        val params = LinearLayout.LayoutParams(layoutParams("wrapContent"), layoutParams("wrapContent"))
+        params.width = if (width is String) layoutParams(width) else pixel(width as Int)
+        params.height = if (height is String) layoutParams(height) else pixel(height as Int)
+        element.layoutParams = params
         return this
     }
 
     fun margin(left: Int, top: Int, right: Int, bottom: Int): CustomButton {
-        var params: LinearLayout.LayoutParams = element!!.layoutParams as LinearLayout.LayoutParams
+        val params = LinearLayout.LayoutParams(element.layoutParams.width, element.layoutParams.height)
         params.setMargins(left, top, right, bottom)
-        element!!.layoutParams = params
+        element.layoutParams = params
         return this
     }
 
     fun padding(left: Int, top: Int, right: Int, bottom: Int): CustomButton {
-        element!!.setPadding(left, top, right, bottom)
+        element.setPadding(left, top, right, bottom)
         return this
     }
 
     fun alignment(value: String): CustomButton {
-        element!!.textAlignment = alignments(value)
+        element.textAlignment = alignments(value)
         return this
     }
 
     fun gravity(value: String): CustomButton {
-        element!!.gravity = gravities(value)
+        element.gravity = gravities(value)
         return this
     }
 
     fun elevation(dip: Int): CustomButton {
-        element!!.elevation = displayValue(dip)
+        element.elevation = displayValue(dip)
         return this
     }
 
     fun backgroundColor(color: Int): CustomButton {
-        element!!.setBackgroundColor(color)
+        element.setBackgroundColor(color)
         return this
     }
 
     fun textColor(color: Int): CustomButton {
-        element!!.setTextColor(color)
+        element.setTextColor(color)
         return this
     }
 
     fun textSize(dip: Int): CustomButton {
-        element!!.setTextSize(TypedValue.COMPLEX_UNIT_PX, displayValue(dip))
+        element.setTextSize(TypedValue.COMPLEX_UNIT_PX, displayValue(dip))
         return this
     }
 
     fun text(value: String): CustomButton {
-        element!!.text = value
+        element.text = value
         return this
     }
 
     fun visibility(show: Boolean): CustomButton {
-        element!!.visibility = View.GONE
-        if (show) element!!.visibility = View.VISIBLE
+        element.visibility = View.GONE
+        if (show) element.visibility = View.VISIBLE
         return this
     }
 
     // shortcuts
     fun banner(): CustomButton {
-        element!!.textSize = displayValue(34)
+        element.textSize = displayValue(34)
         return this
     }
     fun headline(): CustomButton {
-        element!!.textSize = displayValue(24)
+        element.textSize = displayValue(24)
         return this
     }
     fun title(): CustomButton {
-        element!!.textSize = displayValue(20)
+        element.textSize = displayValue(20)
         return this
     }
     fun body(): CustomButton {
-        element!!.textSize = displayValue(16)
+        element.textSize = displayValue(16)
         return this
     }
     fun label(): CustomButton {
-        element!!.textSize = displayValue(14)
+        element.textSize = displayValue(14)
         return this
     }
     fun caption(): CustomButton {
-        element!!.textSize = displayValue(12)
+        element.textSize = displayValue(12)
         return this
     }
     fun overline(): CustomButton {
-        element!!.textSize = displayValue(10)
+        element.textSize = displayValue(10)
         return this
     }
 

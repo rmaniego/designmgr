@@ -10,128 +10,126 @@ import android.widget.EditText
 import android.widget.LinearLayout
 import kotlin.math.roundToInt
 
-class CustomInput(context: Context) {
-    var context = context
+open class CustomInput(var context: Context) {
 
-    // initialize
-    private var element: EditText? = null
+    private var element = EditText(context)
     init {
-        element = EditText(context)
-        element!!.id = View.generateViewId()
+        element.id = View.generateViewId()
     }
 
     fun id(): Int {
-        return element!!.id
+        return element.id
     }
 
     fun build(): EditText {
         // v1.0.0-201911180240
         // v1.0.0-202005090025
-        return element!!
+        return element
     }
 
     fun layout(width: Any, height: Any): CustomInput {
-        var params: LinearLayout.LayoutParams = element!!.layoutParams as LinearLayout.LayoutParams
-        // check width data type
-        if (width is String) params.width = layoutParams(width)
-        if (width is Int) params.width = pixel(width)
-        // check height data type
-        if (height is String) params.height = layoutParams(height)
-        if (height is Int) params.height = pixel(height)
-        element!!.layoutParams = params
+        val params = LinearLayout.LayoutParams(layoutParams("wrapContent"), layoutParams("wrapContent"))
+        params.width = if (width is String) layoutParams(width) else pixel(width as Int)
+        params.height = if (height is String) layoutParams(height) else pixel(height as Int)
+        element.layoutParams = params
         return this
     }
 
     fun margin(left: Int, top: Int, right: Int, bottom: Int): CustomInput {
-        var params: LinearLayout.LayoutParams = element!!.layoutParams as LinearLayout.LayoutParams
+        val params = LinearLayout.LayoutParams(element.layoutParams.width, element.layoutParams.height)
         params.setMargins(left, top, right, bottom)
-        element!!.layoutParams = params
+        element.layoutParams = params
         return this
     }
 
     fun padding(left: Int, top: Int, right: Int, bottom: Int): CustomInput {
-        element!!.setPadding(left, top, right, bottom)
+        element.setPadding(left, top, right, bottom)
         return this
     }
 
     fun alignment(value: String): CustomInput {
-        element!!.textAlignment = alignments(value)
+        element.textAlignment = alignments(value)
         return this
     }
 
     fun gravity(value: String): CustomInput {
-        element!!.gravity = gravities(value)
+        element.gravity = gravities(value)
         return this
     }
 
     fun elevation(dip: Int): CustomInput {
-        element!!.elevation = displayValue(dip)
+        element.elevation = displayValue(dip)
         return this
     }
 
     fun backgroundColor(color: Int): CustomInput {
-        element!!.setBackgroundColor(color)
+        element.setBackgroundColor(color)
+        return this
+    }
+
+    fun textColor(color: Int): CustomInput {
+        element.setTextColor(color)
         return this
     }
 
     fun textSize(dip: Int): CustomInput {
-        element!!.setTextSize(TypedValue.COMPLEX_UNIT_PX, displayValue(dip))
+        element.setTextSize(TypedValue.COMPLEX_UNIT_PX, displayValue(dip))
         return this
     }
 
     fun inputType(type: String): CustomInput {
-        element!!.inputType = inputTypes(type)
+        element.inputType = inputTypes(type)
         return this
     }
 
     fun maxLength(size: Int): CustomInput {
-        element!!.limitLength(size)
+        element.limitLength(size)
         return this
     }
 
     fun hint(value: String): CustomInput {
-        element!!.hint = value
+        element.hint = value
         return this
     }
 
     fun text(value: String): CustomInput {
-        element!!.setText(value)
+        element.setText(value)
         return this
     }
 
     fun visibility(show: Boolean): CustomInput {
-        element!!.visibility = View.GONE
-        if (show) element!!.visibility = View.VISIBLE
+        element.visibility = View.GONE
+        if (show) element.visibility = View.VISIBLE
         return this
     }
 
     // shortcuts
     fun banner(): CustomInput {
-        element!!.textSize = displayValue(34)
+        element.textSize = displayValue(34)
         return this
     }
     fun headline(): CustomInput {
-        element!!.textSize = displayValue(24)
+        element.textSize = displayValue(24)
         return this
     }
     fun title(): CustomInput {
-        element!!.textSize = displayValue(20)
+        element.textSize = displayValue(20)
         return this
     }
     fun body(): CustomInput {
-        element!!.textSize = displayValue(16)
+        element.textSize = displayValue(16)
         return this
     }
     fun label(): CustomInput {
-        element!!.textSize = displayValue(14)
+        element.textSize = displayValue(14)
         return this
     }
     fun caption(): CustomInput {
-        element!!.textSize = displayValue(12)
+        element.textSize = displayValue(12)
         return this
     }
     fun overline(): CustomInput {
-        element!!.textSize = displayValue(10)
+        element.textSize = displayValue(10)
         return this
     }
 

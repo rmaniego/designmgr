@@ -8,64 +8,56 @@ import android.widget.LinearLayout
 import android.widget.ListView
 import kotlin.math.roundToInt
 
-class CustomList(context: Context) {
+open class CustomList(var context: Context) {
 
-    var context = context
-
-    // initialize
-    private var element: ListView? = null
+    private var element = ListView(context)
     init {
-        element = ListView(context)
-        element!!.id = View.generateViewId()
+        element.id = View.generateViewId()
     }
 
     fun id(): Int {
-        return element!!.id
+        return element.id
     }
 
     fun build(): ListView {
         // v1.0.0-201911180240
         // v1.0.0-202005090025
-        return element!!
+        return element
     }
 
     fun layout(width: Any, height: Any): CustomList {
-        var params: ViewGroup.LayoutParams = element!!.layoutParams as LinearLayout.LayoutParams
-        // check width data type
-        if (width is String) params.width = layoutParams(width)
-        if (width is Int) params.width = pixel(width)
-        // check height data type
-        if (height is String) params.height = layoutParams(height)
-        if (height is Int) params.height = pixel(height)
-        element!!.layoutParams = params
+        val params = LinearLayout.LayoutParams(layoutParams("wrapContent"), layoutParams("wrapContent"))
+        params.width = if (width is String) layoutParams(width) else pixel(width as Int)
+        params.height = if (height is String) layoutParams(height) else pixel(height as Int)
+        element.layoutParams = params
         return this
     }
 
     fun margin(left: Int, top: Int, right: Int, bottom: Int): CustomList {
-        var params: LinearLayout.LayoutParams = element!!.layoutParams as LinearLayout.LayoutParams
+        val params = LinearLayout.LayoutParams(element.layoutParams.width, element.layoutParams.height)
         params.setMargins(left, top, right, bottom)
-        element!!.layoutParams = params
+        element.layoutParams = params
         return this
     }
 
     fun padding(left: Int, top: Int, right: Int, bottom: Int): CustomList {
-        element!!.setPadding(left, top, right, bottom)
+        element.setPadding(left, top, right, bottom)
         return this
     }
 
     fun elevation(dip: Int): CustomList {
-        element!!.elevation = displayValue(dip)
+        element.elevation = displayValue(dip)
         return this
     }
 
     fun backgroundColor(color: Int): CustomList {
-        element!!.setBackgroundColor(color)
+        element.setBackgroundColor(color)
         return this
     }
 
     fun visibility(show: Boolean): CustomList {
-        element!!.visibility = View.GONE
-        if (show) element!!.visibility = View.VISIBLE
+        element.visibility = View.GONE
+        if (show) element.visibility = View.VISIBLE
         return this
     }
 

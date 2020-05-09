@@ -14,7 +14,7 @@ class DesignMgr {
             view.visibility = View.GONE
             if (show) view.visibility = View.VISIBLE
         }
-        fun enable(context: Context, view: TextView, enabled: Boolean) {
+        fun enable(view: TextView, enabled: Boolean) {
             view.setTextColor(colors("silver"))
             if (enabled) view.setTextColor(colors("unblue"))
         }

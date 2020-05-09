@@ -1,80 +1,79 @@
 package com.ripelemon.ripelemon.designmgr
 
 import android.content.Context
+import android.text.InputFilter
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
+import android.view.ViewGroup
 import android.widget.LinearLayout
 import kotlin.math.roundToInt
 
-class CustomLayout(context: Context) {
+open class CustomLayout(var context: Context) {
 
-    var context = context
-
-    // initialize
-    private var element: LinearLayout? = null
+    var element = LinearLayout(context)
     init {
-        element = LinearLayout(context)
-        element!!.id = View.generateViewId()
+        element.id = View.generateViewId()
     }
 
     fun id(): Int {
-        return element!!.id
+        return element.id
     }
 
     fun build(): LinearLayout {
         // v1.0.0-201911180240
         // v1.0.0-202005090025
-        return element!!
+        return element
+    }
+
+    fun attachToParent(layout: ViewGroup): Int {
+        layout.addView(element)
+        return element.id
     }
 
     fun layout(width: Any, height: Any): CustomLayout {
-        var params: LinearLayout.LayoutParams = element!!.layoutParams as LinearLayout.LayoutParams
-        // check width data type
-        if (width is String) params.width = layoutParams(width)
-        if (width is Int) params.width = pixel(width)
-        // check height data type
-        if (height is String) params.height = layoutParams(height)
-        if (height is Int) params.height = pixel(height)
-        element!!.layoutParams = params
+        val params = LinearLayout.LayoutParams(layoutParams("wrapContent"), layoutParams("wrapContent"))
+        params.width = if (width is String) layoutParams(width) else pixel(width as Int)
+        params.height = if (height is String) layoutParams(height) else pixel(height as Int)
+        element.layoutParams = params
         return this
     }
 
     fun margin(left: Int, top: Int, right: Int, bottom: Int): CustomLayout {
-        var params: LinearLayout.LayoutParams = element!!.layoutParams as LinearLayout.LayoutParams
+        val params = LinearLayout.LayoutParams(element.layoutParams.width, element.layoutParams.height)
         params.setMargins(left, top, right, bottom)
-        element!!.layoutParams = params
+        element.layoutParams = params
         return this
     }
 
     fun padding(left: Int, top: Int, right: Int, bottom: Int): CustomLayout {
-        element!!.setPadding(left, top, right, bottom)
+        element.setPadding(left, top, right, bottom)
         return this
     }
 
     fun orientation(value: String): CustomLayout {
-        element!!.orientation = orientations(value)
+        element.orientation = orientations(value)
         return this
     }
 
     fun gravity(value: String): CustomLayout {
-        element!!.gravity = gravities(value)
+        element.gravity = gravities(value)
         return this
     }
 
     fun elevation(dip: Int): CustomLayout {
-        element!!.elevation = displayValue(dip)
+        element.elevation = displayValue(dip)
         return this
     }
 
     fun backgroundColor(color: Int): CustomLayout {
-        element!!.setBackgroundColor(color)
+        element.setBackgroundColor(color)
         return this
     }
 
     fun visibility(show: Boolean): CustomLayout {
-        element!!.visibility = View.GONE
-        if (show) element!!.visibility = View.VISIBLE
+        element.visibility = View.GONE
+        if (show) element.visibility = View.VISIBLE
         return this
     }
 
